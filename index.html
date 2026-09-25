@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Since September 24, 2025</title>
+  <style>
+    :root {
+      --pink: #ff4f87;
+      --pink-light: #ff9fbd;
+      --purple: #7b4dff;
+      --text: #fff8fc;
+      --muted: #d9bfd0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      color: var(--text);
+      font-family: Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255, 89, 145, .28), transparent 30%),
+        radial-gradient(circle at 85% 85%, rgba(123, 77, 255, .26), transparent 34%),
+        linear-gradient(135deg, #170d25, #301329 48%, #150c28);
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(680px, 100%);
+      padding: 42px 28px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, .09);
+      box-shadow: 0 22px 80px rgba(0, 0, 0, .35), inset 0 1px rgba(255, 255, 255, .16);
+      backdrop-filter: blur(18px);
+    }
+
+    .lock { font-size: 42px; margin-bottom: 4px; }
+    h1 { margin: 0 0 12px; font-size: clamp(27px, 6vw, 44px); }
+    p { color: var(--muted); margin: 0 0 24px; font-size: 17px; }
+
+    .password-box {
+      display: flex;
+      gap: 10px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    input, button {
+      border: 0;
+      border-radius: 14px;
+      font: inherit;
+    }
+
+    input {
+      min-width: 0;
+      flex: 1;
+      padding: 14px 16px;
+      color: var(--text);
+      outline: 0;
+      background: rgba(0, 0, 0, .24);
+      border: 1px solid rgba(255, 255, 255, .16);
+    }
+
+    input::placeholder { color: #c7a8ba; }
+
+    button {
+      cursor: pointer;
+      padding: 14px 22px;
+      color: white;
+      font-weight: bold;
+      background: linear-gradient(135deg, var(--pink), #f02d6e);
+      box-shadow: 0 8px 24px rgba(255, 79, 135, .28);
+      transition: transform .2s ease, filter .2s ease;
+    }
+
+    button:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .error { min-height: 24px; margin: 12px 0 0; color: #ffb5ca; font-size: 14px; }
+
+    #secret { display: none; }
+    .heart-title { font-size: 62px; line-height: 1; animation: pulse 1.2s ease-in-out infinite; }
+    .subtitle { margin-top: 10px; }
+    .date { color: var(--pink-light); font-weight: bold; }
+
+    .counter {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .unit {
+      padding: 16px 8px;
+      border-radius: 17px;
+      background: rgba(0, 0, 0, .2);
+      border: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    .number { display: block; color: white; font-size: clamp(25px, 7vw, 40px); font-weight: bold; }
+    .label { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; }
+    .forever { margin-top: 25px; font-size: 18px; color: #ffe3ed; }
+
+    .hearts { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      color: var(--pink);
+      font-size: var(--size);
+      opacity: 0;
+      animation: float var(--duration) linear forwards;
+      filter: drop-shadow(0 0 9px rgba(255, 79, 135, .5));
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg) scale(.7); opacity: 0; }
+      12% { opacity: .85; }
+      85% { opacity: .7; }
+      100% { transform: translateY(-115vh) rotate(30deg) scale(1.15); opacity: 0; }
+    }
+
+    @keyframes pulse {
+      50% { transform: scale(1.12); }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 18px; }
+      .password-box { flex-direction: column; }
+      .counter { gap: 6px; }
+      .unit { padding: 13px 4px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
+
+  <main class="page">
+    <section class="card" id="login">
+      <div class="lock">🔐</div>
+      <h1>Something sweet is hidden here</h1>
+      <p>Enter the password to continue</p>
+      <form class="password-box" id="passwordForm">
+        <input id="password" type="password" placeholder="Password" autocomplete="off" />
+        <button type="submit">Enter</button>
+      </form>
+      <div class="error" id="error" aria-live="polite"></div>
+    </section>
+
+    <section class="card" id="secret">
+      <div class="heart-title">💖</div>
+      <h1>Our story is still going</h1>
+      <p class="subtitle">Time elapsed since <span class="date">September 24, 2025</span></p>
+
+      <div class="counter" aria-label="الوقت المنقضي">
+        <div class="unit"><span class="number" id="days">0</span><span class="label">Days</span></div>
+        <div class="unit"><span class="number" id="hours">0</span><span class="label">Hours</span></div>
+        <div class="unit"><span class="number" id="minutes">0</span><span class="label">Minutes</span></div>
+        <div class="unit"><span class="number" id="seconds">0</span><span class="label">Seconds</span></div>
+      </div>
+
+      <div class="forever">Every day makes it more beautiful ❤️</div>
+    </section>
+  </main>
+
+  <script>
+    const PASSWORD = 'fatomi';
+    const startDate = new Date(2025, 8, 24, 0, 0, 0);
+    const login = document.getElementById('login');
+    const secret = document.getElementById('secret');
+    const form = document.getElementById('passwordForm');
+    const password = document.getElementById('password');
+    const error = document.getElementById('error');
+    const hearts = document.getElementById('hearts');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (password.value === PASSWORD) {
+        login.style.display = 'none';
+        secret.style.display = 'block';
+        updateCounter();
+        setInterval(updateCounter, 1000);
+        setInterval(createHeart, 220);
+        for (let i = 0; i < 22; i++) setTimeout(createHeart, i * 100);
+      } else {
+        error.textContent = 'That password is not correct. Try again ❤️';
+        password.select();
+      }
+    });
+
+    function updateCounter() {
+      const elapsed = Math.max(0, Date.now() - startDate.getTime());
+      const totalSeconds = Math.floor(elapsed / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      document.getElementById('days').textContent = days;
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    function createHeart() {
+      const heart = document.createElement('span');
+      heart.className = 'heart';
+      heart.textContent = ['❤', '💗', '💕', '💖'][Math.floor(Math.random() * 4)];
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.setProperty('--size', `${14 + Math.random() * 25}px`);
+      heart.style.setProperty('--duration', `${5 + Math.random() * 5}s`);
+      hearts.appendChild(heart);
+      heart.addEventListener('animationend', () => heart.remove());
+    }
+  </script>
+</body>
+</html>
